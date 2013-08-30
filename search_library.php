@@ -29,7 +29,8 @@ function displayLocationDiv() {
 <div id="search_contents" class="cube-I">
 	<div id="search_by">
 		<br><br>
-		<p><b>Search By:</b></p>
+		<h3>Search By:</h3>
+		<p><b>Type</b></p>
 		<select name="search_type" id="search_type" style="width:140px;" onchange="displayCategoryDiv();">
 			<option value='' select="selected">--ALL--</option>
 			<option id="author" name='opt_author' value='author' >Author</option>

@@ -40,17 +40,17 @@ class BiblioCopyQuery extends Query {
 	function getBooksByCriteria($author,$title,$category,$city,$location,$last,$count) {
 
 		$sqlstring  = "select a.title as Title, a.author as Author,";
-		$sqlstring .= "(CASE WHEN e.description = 'checked in' THEN 'available' ELSE e.description END) as Status,";
+		$sqlstring .= "(CASE WHEN e.description = 'checked in' THEN 'Available' ELSE e.description END) as Status,";
 		$sqlstring .= "d.description as Category, c.loc_city as City, concat(c.loc_address_one,' ',c.loc_address_two) as Location ";
 		$sqlstring .= "from biblio a, biblio_copy b,biblio_location c, ";
 		$sqlstring .= "collection_dm d,biblio_status_dm e ";
 		$sqlstring .= "where a.bibid=b.bibid and a.collection_cd = d.code and b.locationid = c.locationid and b.status_cd = e.code";
 
 		if ( !(empty($author)) && (strlen($author) > 0) )
-			$sqlstring .= " and a.author = '". $author . "'";
+			$sqlstring .= " and a.author like  '%". $author . "%'";
 
 		if ( !(empty($title)) && (strlen($title) > 0) )
-			$sqlstring .= " and a.title = '". $title . "'";
+			$sqlstring .= " and a.title like '%". $title . "%'";
 
 		if ( !(empty($category)) && (strlen($category) > 0) )
 			$sqlstring .= " and d.description = '". $category . "'";

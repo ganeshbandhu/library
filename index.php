@@ -27,6 +27,7 @@ if (isset ( $_GET ['page'] ) && $_GET ['page'] != '') {
 	
 	if ($condition == 1) {
 		$chosencity = $_GET ['chosencity'];
+
 	} else if ($condition == 2) {
 		
 		$search_type = $_GET ['search_type'];
@@ -41,8 +42,10 @@ if (isset ( $_GET ['page'] ) && $_GET ['page'] != '') {
 		$chosencity = $_GET ['chosencity'];
 		$lat = $_GET ['lat'];
 		$long = $_GET ['long'];
-				if(isset($_GET['locationid']))
-		$chosenlocationid = $_GET ['locationid'];
+
+		if(isset($_GET['location']))
+			$chosenlocationid = $_GET ['location'];
+
 	} else if ($condition == 3) {
 		
 		$search_type = $_GET ['search_type'];
@@ -54,14 +57,11 @@ if (isset ( $_GET ['page'] ) && $_GET ['page'] != '') {
 		if ($search_type == "category")
 			$category = $_GET ['category'];
 			
-			// $citydetails=explode(",",$_GET['city']);
 		$chosencity = $_GET ['chosencity'];
 		$lat = $_GET ['lat'];
 		$long = $_GET ['long'];
+
 	} else if ($condition == 4) {
-		$chosenlocationid = $_GET['location'];
-		$chosencity = $cityq->getCityOfLocation ( $chosenlocationid );
-	} else if ($condition == 5) {
 		
 		$search_type = $_GET ['search_type'];
 		
@@ -72,7 +72,9 @@ if (isset ( $_GET ['page'] ) && $_GET ['page'] != '') {
 		if ($search_type == "category")
 			$category = $_GET ['category'];
 	}
+
 } else if ((isset ( $_POST ['Submit'] ))) {
+
 	$search_type = $_POST ['search_type'];
 	
 	if ($search_type == "author")
@@ -97,20 +99,17 @@ if (isset ( $_GET ['page'] ) && $_GET ['page'] != '') {
 		$long = $citydetails [2];
 		$_GET ['long'] = $long;
 	} else {
-		$condition = 5;
+		$condition = 4;
 	}
-} // this page can be re-entered when a city is chosen from the map. the $chosencity variable gets the city chosen.
+} // this page can be re-entered when a city or location is chosen from the map. the $chosencity or $chosenlocationid variable gets the city or location is chosen.
 else if (isset ( $_GET ['chosencity'] ) && $_GET ['chosencity'] != '') {
 	$chosencity = $_GET ['chosencity'];
 	$condition = 1;
-} 
-// this page can be re-entered when a location is chosen from the map. the $chosenlocation variable gets the location chosen.
-else if (isset ( $_GET ['locationid'] ) && $_GET ['locationid'] != '') {
+}else if (isset ( $_GET ['locationid'] ) && $_GET ['locationid'] != '') {
 	$chosenlocationid = $_GET ['locationid'];
-	$chosencity = $cityq->getCityOfLocation ( $chosenlocationid );
-	$condition = 4;
+	$condition = 1;
 } else
-	$condition = 5;
+	$condition = 4;
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -177,7 +176,7 @@ div#searchAllConditionsDisplayed, div#searchConditionsDisplayed {
 					</td>
 				<td valign="top"><?php
 						// when a city is clicked upon in the map, display the locations of the city that have a open library
-						if ($condition == 1 || $condition == 2 || $condition == 3 || $condition == 4) {
+						if ($condition == 1 || $condition == 2 || $condition == 3) {
 							?>
 						<div align="justify">
 							 <br> 
@@ -192,11 +191,6 @@ div#searchAllConditionsDisplayed, div#searchConditionsDisplayed {
 							<?php
 							include 'map_library_locations.php';
 							?>
-						</div> 
-						<div id="conditionsFromMap">
-							<?php
-							include 'display_search_conditions.php';
-						?>
 						</div> 
 						<?php
 						} else {
@@ -215,13 +209,14 @@ div#searchAllConditionsDisplayed, div#searchConditionsDisplayed {
 							include 'map_library_cities.php';
 							?>
 						</div>
-						<div id="conditionsFromMap">
-							<?php
-							include 'display_search_all_conditions.php';
-						?>
 						</div> 
 						<?php
 						}?>
+						<div id="conditionsFromMap">
+							<?php 
+							include 'display_search_conditions.php';
+						?>
+						</div> 
 						<div  id="ListingBooksForClick">
 							<?php
 							include 'books.php';
